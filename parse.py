@@ -4,6 +4,14 @@ import pprint as pp
 
 source = "data/ivtt/ZL_ivtff_1b.txt"
 
+class VoynichLine:
+
+	def __init__(self, locus, text):
+		self.pg_name = locus[0]
+		self.line_num = locus[1]
+		self.code = locus[2]
+
+		self.text = text
 
 class VoynichPage:
 
@@ -15,6 +23,9 @@ class VoynichPage:
 		self.lines = []
 
 
+	def add_line(self, locus, text):
+		self.lines.append(VoynichLine(locus, text))
+
 	def __str__(self):
 		return "<{n}>".format(n=self.name)
 
@@ -22,11 +33,11 @@ class VoynichPage:
 		return self.__str__()
 
 def read_in_source(source):
-
-	# < page . num , code ; T > 
-	# <f112v.11,+P0>   
+ 
 	pg_header_re = r"(<f[0-9]+[rv][0-9]?>)\s+(<!.*>)"
-	locus_re = r"<(f[0-9]+[rv])\.([0-9]+),(...)>"
+	locus_re = r"<(f[0-9]+[rv][0-9]?)\.([0-9]+),(...)>"
+
+	result = None
 
 	with open(source, "r") as f:
 		
@@ -63,24 +74,26 @@ def read_in_source(source):
 					if current_page != None:
 						pages.append(new_page)
 					current_page = new_page
-				else:
-					pass
+
+				elif re.match(locus_re, line):
 					# if it's not a comment or page header, then it must be a regular line
 
 					# first get the locus
-					#locus = re.match(locus_re, line).groups()
+					locus = re.match(locus_re, line).groups()
+					
+					text = line.split()[1]
+					current_page.add_line(locus, text)
 
-
-
-
+				else:
+					pass
+					
 			# increment page
 			line = f.readline().rstrip("\r\n")
+		result = (alphabet, pages)
 
+		#pp.pprint(pages)
 
-
-
-
-		pp.pprint(pages)
+	return result
 
 
 def read_pg_vars(vars_string):
