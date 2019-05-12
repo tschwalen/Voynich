@@ -13,6 +13,107 @@ class VoynichLine:
 
 		self.text = text
 
+
+	# returns the simplest string representation of this line
+	# uncertain characters get their first choice
+	# ligatures are treated as two separate characters
+	def get_words_simple(self, confident_spaces=True):
+		if confident_spaces:
+			split_re = r"\.|,"
+		else:
+			split_re = r"\."
+
+		# go ahead an yeet every inline comment
+		line = re.sub(r"<.*>", "", line)
+
+		# we're treating ligatures as sequences of characters
+		line = line.replace("{", "").replace("}", "")
+
+		# now we reslove conflicting characters to the first choice
+		line = simple_bracket_extract(line)
+
+		line = weirdo_to_unicde(line)
+
+		""" 
+		NOTE:
+		For now I am leaving in the ?, ???, and * characters for
+		different types of unreadable characters even though they
+		don't provide any important information for analysis.
+		They'll be easy to remove should I decide to do so.
+		"""
+
+
+		# let's tokenize the line
+		line = re.split(split_re, self.text)
+
+		#now we can remove any commas if they still exist
+		line = map(lambda str : str = str.replace(",", "") , line)
+
+		# now we should have a list of strings that cleanly
+		# represents this line of the MS
+		return line
+
+
+
+# in cases where the transcriber was unsure of the character
+# they just wrote [a:b] where the first character is the 
+# most likely one. Given a string, this method detects these 
+# instances and returns a strong where only the first character
+# or characters are present (in about the most un-pythonic way
+# possible)
+def simple_bracket_extract(line):
+	output_line = ""
+	i = 0
+	while i < len(line):
+		c = line[i]
+
+		if c == "[":
+			i += 1
+			c = line[i]
+
+			while c != ":":
+				output_line += c
+				i += 1
+				c = line[i]
+
+			while c != "]":
+				i += 1
+				c = line[i]
+		else:
+		    output_line += c  
+		
+		i += 1
+
+	return output_line
+
+# "weirdos" i.e. characters that are infrequent but definite
+# are given a high printable ascii value, but are encoded as 
+# "@123;" where the thee digit number is the ascii code of the
+# character. Since python can handle wierd characters, I'm just
+# going to insert them into the string
+def weirdo_to_unicde(line):
+	output_line = ""
+	i = 0
+	while i < len(line):
+		c = line[i]
+
+		if c == "@":
+			i += 1
+
+			num = line[i:i+3]
+			output_line += chr(int(num))
+
+			i += 3
+
+		else:
+			output_line += c
+		i += 1
+
+	return output_line
+
+
+
+
 class VoynichPage:
 
 
