@@ -23,6 +23,8 @@ class VoynichLine:
 		else:
 			split_re = r"\."
 
+		line = self.text
+
 		# go ahead an yeet every inline comment
 		line = re.sub(r"<.*>", "", line)
 
@@ -44,15 +46,18 @@ class VoynichLine:
 
 
 		# let's tokenize the line
-		line = re.split(split_re, self.text)
+		line = re.split(split_re, line)
+
 
 		#now we can remove any commas if they still exist
-		line = map(lambda str : str = str.replace(",", "") , line)
+		line = map(lambda x : x.replace(",", "") , line)
 
 		# now we should have a list of strings that cleanly
 		# represents this line of the MS
 		return line
 
+	def get_string_simple(self, confident_spaces=True):
+		return " ".join(map(str, self.get_words_simple(confident_spaces)))
 
 
 # in cases where the transcriber was unsure of the character
@@ -110,6 +115,25 @@ def weirdo_to_unicde(line):
 		i += 1
 
 	return output_line
+
+def test_voynich_line():
+	examples = set()
+	examples.add("??doin.chol.dain.cthal.dar.shear.kaiin.dar.shey.cthar")	
+	examples.add("dchar.shcthaiin.okaiir.chey.@192;chy.@130;tol.cthols.dlo{ct}o")
+	examples.add("ycho.tchey.chekain.sheo,pshol.dydyd.cthy.dai[{cto}:@194;]y")
+	examples.add("shor.ckhy.daiiny.<->chol,dan<$>")
+	examples.add("otosey.<!star><->sary")
+
+	dummy_locus = ("test", "test", "test")
+
+	for ex in examples:
+		page = VoynichLine(dummy_locus, ex)
+		print(ex)
+
+		line = page.get_string_simple()
+
+		print(line)
+		print("")
 
 
 
@@ -210,7 +234,10 @@ def read_pg_vars(vars_string):
 
 	return pg_var_values
 
+
+
 					
+
 
 
 
