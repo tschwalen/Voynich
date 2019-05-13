@@ -164,6 +164,8 @@ def subsection_analysis(voynich, top=5, do_print=False):
 	absolute_subsection_differences(freq_data, 10, do_print)
 	
 
+######################################################################################################
+
 """
 
 0  1  2  3 -3 -2 -1
@@ -278,6 +280,7 @@ def char_pos_overall_weights(wf, cf):
 		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
 
 
+
 def start_score(pw_vector):
 	"""
 	Calculate the start score of a positional weight vector
@@ -341,12 +344,12 @@ def start_end_score_analysis(wf, cf):
 	for ch, sc in sorted_es:
 		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
 	"""
-	print("Start Scores:")
+	print("Weighted Start Scores:")
 	for ch, sc in sorted_ss:
 		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
 
 
-	print("\nEnd Scores:")
+	print("\nWeighted End Scores:")
 	for ch, sc in sorted_es:
 		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
 
@@ -365,7 +368,7 @@ def char_positional_analysis(wf, cf):
 		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
 	"""
 
-
+######################################################################################################
 	
 
 
