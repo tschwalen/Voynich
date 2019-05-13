@@ -1,0 +1,8 @@
+In this vector format, index 0-3 represents the first 4 letters of a word and 4-7 represents the last 4.
+I got the positional score of every character in the MS, then out of the top 20 most frequent characters, 
+I calculated which character had the highest probability of being in a given space.
+The result is the following vector. See the the file "char_pos_overall_weights" for the data from which
+this was calculated. 
+
+
+['q', 'h', 'k', 'c', 'a', 'e', 'i', 'n']

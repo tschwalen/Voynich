@@ -1,5 +1,8 @@
 import parse
 from collections import Counter
+import numpy as np
+
+np.set_printoptions(precision=5)
 
  
 source="data/ivtt/ZL_ivtff_1b.txt"
@@ -201,7 +204,7 @@ def range_calc(x):
 
 
 
-def char_positional_analysis(wf, cf):
+def calculate_char_pos_vectors(wf, cf):
 
 	# initialize vectors for each character
 	vectors = {c : [0] * 8 for c in cf}
@@ -209,7 +212,7 @@ def char_positional_analysis(wf, cf):
 	for word in wf:
 
 		# get the range object that tells us 
-		# how to index into the psositional 
+		# how to index into the positional 
 		# vector
 		v_range = range_calc(len(word))
 
@@ -239,16 +242,39 @@ def char_positional_analysis(wf, cf):
 
 		un_norm_vec = vectors[char_key]
 
-		vectors[char_key] = map(lambda x : x / counts , un_norm_vec)
+		for i in range(0, len(un_norm_vec)):
+
+			# might not want to round when doing calculations, but maybe for presentation
+			vectors[char_key][i] = round( vectors[char_key][i] / counts, 3)
+
 
 	return vectors
 
 
 
+def char_positional_analysis(wf, cf):
 
-			
+	pos_freq_vecs = calculate_char_pos_vectors(wf, cf)
 
+	#chars = sorted(list(pos_freq_vecs))
 
+	"""
+	for char, freq in cf.most_common():
+		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
+	"""
+
+	top20 = {}
+	for char, freq in cf.most_common(20):
+		top20[char] = pos_freq_vecs[char]
+
+	top20_most_freq_pos = [""] * 8
+	for i in range(0, len(top20_most_freq_pos)):
+
+		col = { k : top20[k][i] for k in top20 }
+
+		top20_most_freq_pos[i] = max(col, key=col.get)
+
+	print(top20_most_freq_pos)
 
 
 
@@ -262,8 +288,8 @@ def preliminary_analysis(voynich):
 
 	# subsection_analysis(voynich)
 	
-	# wf = word_frequencies(voynich[1])
-
+	wf = word_frequencies(voynich[1], do_print=False)
+	cf = character_frequencies(voynich[1], do_print=False)
 
 	""" Finding the lonest valid word """
 	# for word in list(wf):
@@ -275,6 +301,8 @@ def preliminary_analysis(voynich):
 	# print(longest)
 	# print(wf["qokeeodaiin"])
 
+	# ~~~~ char positional analysis
+	char_positional_analysis(wf, cf)
 
 
 
