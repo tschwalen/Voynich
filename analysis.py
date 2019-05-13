@@ -1,6 +1,9 @@
 import parse
 from collections import Counter
 import numpy as np
+import functools as ft
+import operator as op
+import math
 
 np.set_printoptions(precision=5)
 
@@ -204,7 +207,7 @@ def range_calc(x):
 
 
 
-def calculate_char_pos_vectors(wf, cf):
+def calculate_char_pos_vectors(wf, cf, digs=3, do_round=True):
 
 	# initialize vectors for each character
 	vectors = {c : [0] * 8 for c in cf}
@@ -245,24 +248,15 @@ def calculate_char_pos_vectors(wf, cf):
 		for i in range(0, len(un_norm_vec)):
 
 			# might not want to round when doing calculations, but maybe for presentation
-			vectors[char_key][i] = round( vectors[char_key][i] / counts, 3)
-
+			if do_round:
+				vectors[char_key][i] = round( vectors[char_key][i] / counts, digs)
+			else:
+				vectors[char_key][i] = vectors[char_key][i] / counts
 
 	return vectors
 
 
-
-def char_positional_analysis(wf, cf):
-
-	pos_freq_vecs = calculate_char_pos_vectors(wf, cf)
-
-	#chars = sorted(list(pos_freq_vecs))
-
-	"""
-	for char, freq in cf.most_common():
-		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
-	"""
-
+def fav_pos_top_20(wf, cf):
 	top20 = {}
 	for char, freq in cf.most_common(20):
 		top20[char] = pos_freq_vecs[char]
@@ -275,6 +269,104 @@ def char_positional_analysis(wf, cf):
 		top20_most_freq_pos[i] = max(col, key=col.get)
 
 	print(top20_most_freq_pos)
+
+def char_pos_overall_weights(wf, cf):
+	chars = sorted(list(pos_freq_vecs))
+
+	
+	for char, freq in cf.most_common():
+		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
+
+
+def start_score(pw_vector):
+	"""
+	Calculate the start score of a positional weight vector
+	"""
+
+	# subtract end likelyhood from start likelyhood
+	return ft.reduce(op.add, pw_vector[0:4], 0) - ft.reduce(op.add, pw_vector[4:8], 0)
+
+def end_score(pw_vector):
+	"""
+	Calculate the start score of a positional weight vector
+	"""
+
+	# subtract end likelyhood from start likelyhood
+	return ft.reduce(op.add, pw_vector[4:8], 0) - ft.reduce(op.add, pw_vector[0:4], 0)
+
+def weighted_start_score(pw_vector, freq):
+	return start_score(pw_vector) * math.log10(freq)
+
+def weighted_end_score(pw_vector, freq):
+	return end_score(pw_vector) * math.log10(freq)
+
+
+def start_end_score_analysis(wf, cf):
+	""" we're going to exclude single character words and very infrequent words """
+
+	
+	for word in list(wf):
+		if len(word) < 2:
+			del wf[word]
+
+		# with the weighted scores, infrequent
+		
+		if wf[word] < 2:
+			del wf[word]
+		
+
+
+	pos_freq_vecs = calculate_char_pos_vectors(wf, cf)
+
+	chars = sorted(list(pos_freq_vecs))
+
+	""" Calculate start and end scores for all characters """
+	start_scores = {ch : weighted_start_score(pos_freq_vecs[ch], cf[ch]) for ch in chars}
+	end_scores = {ch : weighted_end_score(pos_freq_vecs[ch], cf[ch]) for ch in chars}
+	"""
+	sorted_ss = [(k, start_scores[k]) for k in sorted(start_scores, key=start_scores.get, reverse=True)]
+	sorted_es = [(k, end_scores[k]) for k in sorted(end_scores, key=end_scores.get, reverse=True)]
+	"""
+
+	sorted_ss = [(k, start_scores[k]) for k in sorted(start_scores, key=start_scores.get, reverse=True)]
+	sorted_es = [(k, end_scores[k]) for k in sorted(end_scores, key=end_scores.get, reverse=True)]
+
+	"""
+	print("Start Scores:")
+	for ch, sc in sorted_ss:
+		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
+
+
+	print("\nEnd Scores:")
+	for ch, sc in sorted_es:
+		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
+	"""
+	print("Start Scores:")
+	for ch, sc in sorted_ss:
+		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
+
+
+	print("\nEnd Scores:")
+	for ch, sc in sorted_es:
+		print("{ch} : {sc} : (occurs {f} times)".format(ch=ch, sc=sc, f=cf[ch]))
+
+
+def char_positional_analysis(wf, cf):
+
+	
+	start_end_score_analysis(wf, cf)
+	"""
+	pos_freq_vecs = calculate_char_pos_vectors(wf, cf)
+
+	chars = sorted(list(pos_freq_vecs))
+
+	
+	for char, freq in cf.most_common():
+		print("{ch} : {vec}      ->   {freq}".format(ch=char, vec=pos_freq_vecs[char], freq=freq))
+	"""
+
+
+	
 
 
 
@@ -303,11 +395,6 @@ def preliminary_analysis(voynich):
 
 	# ~~~~ char positional analysis
 	char_positional_analysis(wf, cf)
-
-
-
-
-
 
 
 
