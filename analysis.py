@@ -158,6 +158,99 @@ def subsection_analysis(voynich, top=5, do_print=False):
 	absolute_subsection_differences(freq_data, 10, do_print)
 	
 
+"""
+
+0  1  2  3 -3 -2 -1
+b  a  l  l  a  s  t  -> (-3, 4)
+
+0  1  2 -3 -2 -1
+b  r  i  d  g  e  -> (-3, 3)
+
+0  1  2 -2 -1
+s  t  i  c  k  ->  range(-2, 3)
+
+0  1 -2 -1
+b  a  l  l     ->  range(-2, 2)
+
+0  1 -1
+h  e  y		   ->  range(-1, 2)
+
+0 -1
+n  o           ->  range(-1, 1)
+
+0
+a              ->  range(0, 1)
+"""
+def range_calc(x):
+	"""
+	basically this ensures we don't get
+	overlapping scores when calculating
+	the positional frequency of characters
+	since for strings shorter than len 8
+	there is overlap for range (-4, 4)
+	eg, "hey"[-1] == "hey"[2]
+	
+	(not to mention out of range errors)
+	"""
+	if x > 8:
+		x = 8
+
+	lo = 0 - x // 2
+	hi = lo + x
+	return range(lo, hi)
+
+
+
+def char_positional_analysis(wf, cf):
+
+	# initialize vectors for each character
+	vectors = {c : [0] * 8 for c in cf}
+
+	for word in wf:
+
+		# get the range object that tells us 
+		# how to index into the psositional 
+		# vector
+		v_range = range_calc(len(word))
+
+		word_index = 0
+		for vi in v_range:
+			"""
+			we iterate over the word's characters
+			in the order that corrosponds to it's 
+			index in the positional frequency 
+			vector.
+			"""
+			char = word[vi]
+
+			"""
+			since we have the frequency of the word, we
+			can update the count in the posfreq vector
+			like this, since if char c occurs at position
+			x in word w, and word w occurs z times in the
+			MS, then we know that char c occurs at position
+			x at least z times
+			"""
+			vectors[char][vi] += wf[word]
+
+	# now normalize each vector by the character's count in the ms
+	for char_key in vectors:
+		counts = cf[char_key]
+
+		un_norm_vec = vectors[char_key]
+
+		vectors[char_key] = map(lambda x : x / counts , un_norm_vec)
+
+	return vectors
+
+
+
+
+			
+
+
+
+
 
 
 
@@ -167,10 +260,20 @@ def subsection_analysis(voynich, top=5, do_print=False):
 def preliminary_analysis(voynich):
 
 
-	subsection_analysis(voynich)
+	# subsection_analysis(voynich)
 	
-	# word_frequencies(voynich[1])
+	# wf = word_frequencies(voynich[1])
+
+
+	""" Finding the lonest valid word """
+	# for word in list(wf):
+	# 	if wf[word] < 3:
+	# 		del wf[word]
+	
 	# character_frequencies(voynich[1])
+	# longest = max(list(wf), key=len )
+	# print(longest)
+	# print(wf["qokeeodaiin"])
 
 
 
