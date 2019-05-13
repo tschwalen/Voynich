@@ -1,0 +1,252 @@
+Top 5 words that appear in Biological, but not in Herbal
+olchedy  :  24
+qotain  :  22
+olshedy  :  15
+qolchedy  :  11
+tal  :  10
+Top 5 words that appear in Biological, but not in Astronomical (excluding zodiac)
+shedy  :  247
+qokedy  :  165
+qokain  :  162
+qokeedy  :  153
+qokal  :  109
+Top 5 words that appear in Biological, but not in Marginal stars only
+qolchedy  :  11
+rchey  :  7
+qoly  :  7
+shckhedy  :  6
+rshedy  :  6
+Top 5 words that appear in Biological, but not in Cosmological
+qol  :  108
+lchedy  :  59
+okeedy  :  40
+olkain  :  26
+cheedy  :  25
+Top 5 words that appear in Biological, but not in Pharmaceutical
+qokeedy  :  153
+lchedy  :  59
+otedy  :  53
+qotedy  :  47
+okedy  :  45
+Top 5 words that appear in Biological, but not in Zodiac
+qokedy  :  165
+qokain  :  162
+qokeedy  :  153
+qokal  :  109
+qol  :  108
+Top 5 words that appear in Herbal, but not in Biological
+chor  :  153
+sho  :  91
+cho  :  49
+chody  :  46
+chaiin  :  38
+Top 5 words that appear in Herbal, but not in Astronomical (excluding zodiac)
+shol  :  112
+shor  :  66
+okaiin  :  57
+chdy  :  53
+qotchy  :  48
+Top 5 words that appear in Herbal, but not in Marginal stars only
+cthor  :  38
+otchol  :  23
+dchy  :  22
+dchor  :  21
+ykchy  :  18
+Top 5 words that appear in Herbal, but not in Cosmological
+qotchy  :  48
+dor  :  39
+cthor  :  38
+kchy  :  32
+ckhy  :  31
+Top 5 words that appear in Herbal, but not in Pharmaceutical
+chaiin  :  38
+char  :  35
+kchy  :  32
+qoty  :  30
+otchy  :  29
+Top 5 words that appear in Herbal, but not in Zodiac
+chor  :  153
+cthy  :  89
+dain  :  87
+shor  :  66
+qotchy  :  48
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Biological
+daiir  :  5
+cho  :  4
+okeo  :  4
+chockhy  :  3
+oteo  :  3
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Herbal
+oteeos  :  3
+oteeody  :  2
+chocfhy  :  2
+chteey  :  2
+otcheody  :  2
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Marginal stars only
+okeo  :  4
+dchy  :  2
+chocfhy  :  2
+sary  :  2
+ykeody  :  2
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Cosmological
+chockhy  :  3
+oteodaiin  :  3
+chos  :  3
+chocfhy  :  2
+kchy  :  2
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Pharmaceutical
+shes  :  4
+oteo  :  3
+yteody  :  3
+oteodaiin  :  3
+aldy  :  3
+Top 5 words that appear in Astronomical (excluding zodiac), but not in Zodiac
+ain  :  4
+dain  :  4
+sor  :  3
+dary  :  3
+chos  :  3
+Top 5 words that appear in Marginal stars only, but not in Biological
+cheody  :  33
+chody  :  22
+cheeo  :  18
+qodaiin  :  18
+chor  :  16
+Top 5 words that appear in Marginal stars only, but not in Herbal
+lkaiin  :  39
+qotain  :  34
+lkain  :  28
+lkar  :  22
+qopchedy  :  21
+Top 5 words that appear in Marginal stars only, but not in Astronomical (excluding zodiac)
+qokeedy  :  136
+qokaiin  :  121
+shedy  :  116
+qokain  :  100
+okaiin  :  97
+Top 5 words that appear in Marginal stars only, but not in Cosmological
+lchedy  :  52
+okeedy  :  47
+lkeey  :  34
+lkeedy  :  30
+lkain  :  28
+Top 5 words that appear in Marginal stars only, but not in Pharmaceutical
+qokeedy  :  136
+otedy  :  59
+oteedy  :  57
+lchedy  :  52
+otain  :  52
+Top 5 words that appear in Marginal stars only, but not in Zodiac
+qokeedy  :  136
+qokaiin  :  121
+qokain  :  100
+l  :  100
+okain  :  68
+Top 5 words that appear in Cosmological, but not in Biological
+aiir  :  9
+chody  :  8
+v  :  7
+cheody  :  7
+sheody  :  7
+Top 5 words that appear in Cosmological, but not in Herbal
+v  :  7
+tal  :  7
+x  :  7
+«  :  5
+ª  :  5
+Top 5 words that appear in Cosmological, but not in Astronomical (excluding zodiac)
+qokar  :  18
+ykaiin  :  16
+shedy  :  16
+qokaiin  :  16
+otal  :  15
+Top 5 words that appear in Cosmological, but not in Marginal stars only
+k  :  9
+v  :  7
+x  :  7
+t  :  5
+«  :  5
+Top 5 words that appear in Cosmological, but not in Pharmaceutical
+ykaiin  :  16
+ytaiin  :  15
+otedy  :  10
+qotaiin  :  9
+k  :  9
+Top 5 words that appear in Cosmological, but not in Zodiac
+l  :  18
+ykaiin  :  16
+qokaiin  :  16
+ytaiin  :  15
+qokal  :  15
+Top 5 words that appear in Pharmaceutical, but not in Biological
+chor  :  24
+cheody  :  17
+qokeody  :  16
+chody  :  11
+chos  :  8
+Top 5 words that appear in Pharmaceutical, but not in Herbal
+qokeeol  :  4
+sheeol  :  4
+qokeeo  :  4
+qoeol  :  4
+qoeey  :  4
+Top 5 words that appear in Pharmaceutical, but not in Astronomical (excluding zodiac)
+qokeody  :  16
+ckhey  :  11
+olaiin  :  11
+sheor  :  10
+okor  :  9
+Top 5 words that appear in Pharmaceutical, but not in Marginal stars only
+ckhey  :  11
+ctheol  :  7
+qockhol  :  6
+oldaiin  :  5
+ykeody  :  4
+Top 5 words that appear in Pharmaceutical, but not in Cosmological
+ckhey  :  11
+sheor  :  10
+cthey  :  10
+okor  :  9
+dor  :  9
+Top 5 words that appear in Pharmaceutical, but not in Zodiac
+qokeol  :  25
+chor  :  24
+qokol  :  22
+sheey  :  18
+dol  :  18
+Top 5 words that appear in Zodiac, but not in Biological
+oteody  :  12
+oteos  :  9
+oteo  :  6
+okeody  :  5
+okeos  :  5
+Top 5 words that appear in Zodiac, but not in Herbal
+???  :  4
+oteeos  :  4
+oteeody  :  3
+opaiin  :  3
+okalar  :  3
+Top 5 words that appear in Zodiac, but not in Astronomical (excluding zodiac)
+otaiin  :  13
+oteody  :  12
+otal  :  8
+okaiin  :  7
+okaly  :  5
+Top 5 words that appear in Zodiac, but not in Marginal stars only
+okeos  :  5
+ykeody  :  3
+okalar  :  3
+okeo  :  3
+oteotey  :  3
+Top 5 words that appear in Zodiac, but not in Cosmological
+otaly  :  8
+okaly  :  5
+teey  :  4
+okeeol  :  4
+???  :  4
+Top 5 words that appear in Zodiac, but not in Pharmaceutical
+oteedy  :  6
+oteo  :  6
+okaly  :  5
+oteodar  :  4
+teey  :  4

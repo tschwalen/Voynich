@@ -157,6 +157,8 @@ class VoynichPage:
 	def __repr__(self):
 		return self.__str__()
 
+
+
 def read_in_source(source):
  
 	pg_header_re = r"(<f[0-9]+[rv][0-9]?>)\s+(<!.*>)"
@@ -206,7 +208,9 @@ def read_in_source(source):
 					# first get the locus
 					locus = re.match(locus_re, line).groups()
 					
-					text = line.split()[1]
+
+					text = " ".join(map(str, line.split()[1:]))
+
 					current_page.add_line(locus, text)
 
 				else:
