@@ -53,7 +53,7 @@ def character_frequencies(pages, top=15, do_print=True):
 
 	return char_counts
 
-def subsection_frequencies(voynich, do_print=False):
+def subsection_frequencies(voynich, do_print=False, include_T=False):
 	global i_codes
 
 	"""
@@ -78,6 +78,9 @@ def subsection_frequencies(voynich, do_print=False):
 	list_of_pages = voynich[1]
 
 	subsection_pages = {"A" : [], "B": [], "C": [], "H": [], "P": [], "S": [], "Z": [] }
+
+	if include_T:
+		subsection_pages["T"] = []
 
 	for page in list_of_pages:
 
@@ -149,7 +152,7 @@ def absolute_subsection_differences(freq_data, top=10, do_print=False):
 def subsection_analysis(voynich, top=5, do_print=False):
 	global i_codes
 
-	freq_data = subsection_frequencies(voynich)
+	freq_data = subsection_frequencies(voynich, include_T=True)
 
 	#simple_subsection_differences(freq_data, top, do_print)
 	absolute_subsection_differences(freq_data, 10, do_print)

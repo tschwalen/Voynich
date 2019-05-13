@@ -240,11 +240,6 @@ def read_pg_vars(vars_string):
 
 
 
-					
-
-
-
-
 
 if __name__ == "__main__":
 	read_in_source(source)
