@@ -56,7 +56,7 @@ class NG_Model:
 			context = context.split()
 
 		if len(context) < self.n - 1:
-			padding = ["<s>"] * ((self.n - 1) - len(context))
+			padding = [start_token] * ((self.n - 1) - len(context))
 			context = padding + context
 
 		# add code to handle different types of input
@@ -85,7 +85,7 @@ class NG_Model:
 			context = context.split()
 
 		if len(context) < self.n - 1:
-			padding = ["<s>"] * ((self.n - 1) - len(context))
+			padding = [start_token] * ((self.n - 1) - len(context))
 			context = padding + context
  
 		context = tuple(context[-(self.n - 1):])
@@ -127,6 +127,47 @@ class NG_Model:
 		pass
 
 
+	def entropy(self, text):
+		"""
+		# Adapted From NLTK's entropy
+
+		Calculate the approximate cross-entropy of the n-gram model for a
+		given evaluation text.
+		This is the average log probability of each word in the text.
+
+		:param text: words to use for evaluation
+		:type text: list(str)
+		"""
+
+		if not isinstance(text, list):
+			text = text.split()
+
+		padding = [start_token] * (self.n - 1)
+
+
+		e = 0.0
+		text = padding + text
+		for index in range(0, len(text) - self.n + 1):
+			context = tuple(text[index : index + self.n - 1])
+			word = text[index + self.n - 1]
+			e += -(self.prob(context, word, do_log=True))
+
+		return e / float(len(text) - (self.n - 1))
+
+	def perplexity(self, text):
+		"""
+	
+		# Adapted From NLTK's entropy
+
+		Calculates the perplexity of the given text.
+		This is simply 2 ** cross-entropy for the text.
+
+		:param text: words to calculate perplexity of
+		:type text: list(str)
+		"""
+
+		return math.pow(2.0, self.entropy(text))
+
 
 
 
@@ -162,7 +203,7 @@ def get_ngrams(n, text, custom_padding=None):
 
 
 if __name__ == "__main__":
-	lm = NG_Model(3, 0.2)
+	lm = NG_Model(3, 0.1)
 	lm.update("I am Sam")
 	lm.update("Sam I am")
 	lm.update("I do not like green eggs and ham")
@@ -173,5 +214,8 @@ if __name__ == "__main__":
 	print(lm.prob("I", "am"))
 	print(lm.prob("I", "do"))
 	print(lm.random_text(7))
+	print(lm.perplexity("I do not like green eggs and ham"))
+	print(lm.perplexity("I do not like red beans and rice"))
+	print(lm.perplexity("asdf wefwe eefer"))
 	##print(n_grams(3, "I have no shoes"))
 
