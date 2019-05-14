@@ -168,6 +168,45 @@ class NG_Model:
 
 		return math.pow(2.0, self.entropy(text))
 
+	def corpus_entropy(self, corpus):
+		
+
+		assert(isinstance(corpus, list))
+
+
+		total_e = 0.0
+		total_length = 0
+
+		
+
+		for text in corpus:
+			if not isinstance(text, list):
+				text = text.split()
+
+			padding = [start_token] * (self.n - 1)
+
+			e = 0.0
+			text = padding + text
+			
+			
+
+			for index in range(0, len(text) - self.n + 1):
+				context = tuple(text[index : index + self.n - 1])
+				word = text[index + self.n - 1]
+				e += -(self.prob(context, word, do_log=True))
+
+			
+			total_e += e
+			total_length += len(text) - (self.n - 1)
+			
+
+		return total_e / float(total_length)
+
+
+
+	def corpus_perplexity(self, corpus):
+
+		return math.pow(2.0, self.corpus_entropy(corpus))
 
 
 
@@ -214,8 +253,17 @@ if __name__ == "__main__":
 	print(lm.prob("I", "am"))
 	print(lm.prob("I", "do"))
 	print(lm.random_text(7))
-	print(lm.perplexity("I do not like green eggs and ham"))
-	print(lm.perplexity("I do not like red beans and rice"))
-	print(lm.perplexity("asdf wefwe eefer"))
+	# print(lm.perplexity("I do not like green eggs and ham"))
+	# print(lm.perplexity("I do not like red beans and rice"))
+	# print(lm.perplexity("asdf wefwe eefer"))
+
+	# print(lm.perplexity("I am Sam"))
+	# print(lm.perplexity("Sam I am"))
+	# print(lm.perplexity("rtg dfgg sdfve"))
+	# print(lm.perplexity("sadf asdfds fff"))
+
+
+	print(lm.corpus_perplexity( ["I am Sam", "Sam I am"] ))
+	print(lm.corpus_perplexity( ["rtg dfgg sdfve", "sadf asdfds fff"] ))
 	##print(n_grams(3, "I have no shoes"))
 
