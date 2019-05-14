@@ -12,7 +12,7 @@ class NG_Model:
 	k : degree of laplace smoothing
 	"""
 	def __init__(self, n, k):
-		assert n != 1:
+		assert(n != 1)
 
 
 		self.n = n
@@ -33,7 +33,12 @@ class NG_Model:
 		
 		# now text must be a list of strings
 		n_grams = get_ngrams(self.n, text)
-		n_minusone_grams = get_ngrams(self.n - 1, text)
+
+		n_minusone_grams = get_ngrams(self.n - 1, text, self.n - 1)
+
+		#print(n_grams)
+		#print(n_minusone_grams)
+
 
 		self.ngram_cnts.update(n_grams)
 		self.n_minusone_cnts.update(n_minusone_grams)
@@ -46,9 +51,16 @@ class NG_Model:
 		if isinstance(context, str):
 			context = context.split()
 
+		if len(context) < self.n - 1:
+			padding = ["<s>"] * ((self.n - 1) - len(context))
+			context = padding + context
+
 		# add code to handle different types of input
 		ngram_context = tuple(context[-(self.n - 1):])
 		ngram = ngram_context + (word,)
+
+		#print(ngram_context)
+		#print(ngram)
 
 		# no smoothing yet
 		prob = self.ngram_cnts[ngram] / self.n_minusone_cnts[ngram_context] 
@@ -108,14 +120,22 @@ class NG_Model:
 
 
 
-def get_ngrams(n, text):
-	word_tokens = text.split()
+def get_ngrams(n, text, custom_padding=None):
 
-	padding = [start_token] * (n - 1)
+	if not isinstance(text, list):
+		word_tokens = text.split()
+	else:
+		word_tokens = text
+
+	
+	if custom_padding:
+		padding = [start_token] * custom_padding
+	else:
+		padding = [start_token] * (n - 1)
 
 	word_tokens = padding + word_tokens
 
-	print(word_tokens)
+	##print(word_tokens)
 
 	n_grams = []
 	for index in range(0, len(word_tokens) - n + 1):
@@ -132,6 +152,15 @@ def get_ngrams(n, text):
 
 
 if __name__ == "__main__":
-	pass
-	#print(n_grams(3, "I have no shoes"))
+	lm = NG_Model(2, 0)
+	lm.update("I am Sam")
+	lm.update("Sam I am")
+	lm.update("I do not like green eggs and ham")
+
+	print(lm.prob("<s>", "I"))
+	print(lm.prob("<s>", "Sam"))
+	print(lm.prob("am", "Sam"))
+	print(lm.prob("I", "am"))
+	print(lm.prob("I", "do"))
+	##print(n_grams(3, "I have no shoes"))
 
