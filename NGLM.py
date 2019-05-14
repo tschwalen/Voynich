@@ -31,6 +31,10 @@ class NG_Model:
 		if not isinstance(text, list):
 			text = text.split()
 		
+		# keep V updated
+		for word in text:
+			self.vocab.add(word)
+
 		# now text must be a list of strings
 		n_grams = get_ngrams(self.n, text)
 
@@ -62,8 +66,8 @@ class NG_Model:
 		#print(ngram_context)
 		#print(ngram)
 
-		# no smoothing yet
-		prob = self.ngram_cnts[ngram] / self.n_minusone_cnts[ngram_context] 
+		# simple k smoothing right now
+		prob = ( self.ngram_cnts[ngram] + self.k ) / (self.n_minusone_cnts[ngram_context] + (self.k * len(self.vocab))) 
 
 		if do_log:
 			prob = math.log10(prob)
@@ -90,14 +94,14 @@ class NG_Model:
 		most_likely_word = None
 
 
-		for ngram in self.ngram_cnts:
-			if ngram[0: self.n - 1] == context:
+		for word in self.vocab:
 
-				p = self.prob(context, ngram[-1], do_log=True)
 
-				if p > max_prob:
-					max_prob = p
-					most_likely_word = ngram[-1]
+			p = self.prob(context, word, do_log=True)
+			if p > max_prob:
+				max_prob = p
+				most_likely_word = word
+				
 		return most_likely_word
 
 
@@ -158,7 +162,7 @@ def get_ngrams(n, text, custom_padding=None):
 
 
 if __name__ == "__main__":
-	lm = NG_Model(2, 0)
+	lm = NG_Model(3, 0.2)
 	lm.update("I am Sam")
 	lm.update("Sam I am")
 	lm.update("I do not like green eggs and ham")
