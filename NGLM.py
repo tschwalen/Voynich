@@ -106,10 +106,16 @@ class NG_Model:
 			n-grams learned by this model '''
 
 		context = []
+		phrase = ""
 
+		for i in range(0, length):
+			next_word = self.random_word(context)
+			context.append(next_word)
+			phrase += next_word
+			phrase += " "
 
+		return phrase
 
-		pass
 
 	def perplexity(self, text):
 		''' Returns the perplexity of text based on the n-grams learned by
@@ -162,5 +168,6 @@ if __name__ == "__main__":
 	print(lm.prob("am", "Sam"))
 	print(lm.prob("I", "am"))
 	print(lm.prob("I", "do"))
+	print(lm.random_text(7))
 	##print(n_grams(3, "I have no shoes"))
 
