@@ -5,6 +5,10 @@ import functools as ft
 import operator as op
 import math
 from NGLM import NG_Model
+import re
+import random
+import string
+
 
 np.set_printoptions(precision=5)
 
@@ -372,10 +376,66 @@ def char_positional_analysis(wf, cf):
 ######################################################################################################
 	
 
+def simple_bracket_extract(line):
+	output_line = ""
+	i = 0
+	while i < len(line):
+		c = line[i]
+
+		if c == "[":
+			i += 1
+			c = line[i]
+
+			while c != "]":
+				i += 1
+				c = line[i]
+		else:
+		    output_line += c  
+		
+		i += 1
+
+	return output_line
+
+
+def eval_lm(lines):
+	training_set = []
+
+	test_set = []
+
+	lm = NG_Model(3, 3)
+
+	# let the test set be every x line, and the training set be the remainder
+	num = 0
+
+	for line in lines:
+
+			if num % 2 == 0:
+				test_set.append(line)
+			else:
+				training_set.append(line)
+
+			num += 1
+
+	print(num)
+
+	# now train the lm
+	for line in training_set:
+		lm.update(line)
+
+	print(len(lm.vocab))
+
+	# calculate the perplexity
+	perplexity = lm.corpus_perplexity(test_set)
+
+	#generate some random text
+	sample_line = lm.random_text(8)
+
+	print("perplexity: {p}".format(p=perplexity))
+	print("Sample Sentence: {s}.".format(s=sample_line))
 
 
 def other_text_lm():
-	lines = 5198
+	max_line = 5200
 
 	start_line = 90
 
@@ -392,12 +452,42 @@ def other_text_lm():
 					line_num += 1
 					continue
 
-				if line_num > lines:
+				if line_num > max_line:
 					break
 
+				line = re.sub(r'\[.*\]', '', line)
+				line = re.sub(r'\(.*\)', '', line)
+
+				line = line.split()
+
+				if len(line) == 0:
+					continue
 
 				
-				array.append(line)
+				lines.append(line)
+				line_num += 1
+	eval_lm(lines)
+
+	
+def gibberish_lm():
+
+	lines = []
+
+	for i in range(0, 5200):
+		line = []
+		num_words = random.choice(range(1,16))
+		for j in range(0, num_words):
+			word_length = random.choice(range(1,18))
+
+			word = ""
+			for z in range(0, word_length):
+				word += random.choice(string.ascii_letters)
+			line.append(word)
+		lines.append(line)
+
+	eval_lm(lines)
+
+
 
 
 
@@ -465,7 +555,13 @@ def preliminary_analysis(voynich):
 
 	# ~~~~ char positional analysis
 	#char_positional_analysis(wf, cf)
-	language_model_analysis(voynich)
+	
+	# ~~~~~~~~~ lm
+
+	#language_model_analysis(voynich)
+
+	#other_text_lm()
+	gibberish_lm()
 
 
 

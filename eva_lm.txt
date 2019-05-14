@@ -1,0 +1,6 @@
+Using same settings as the voynich lm
+
+5111
+10009
+perplexity: 15.86477772082486
+Sample Sentence: et de bona coquina, de quibus vide fol. .
