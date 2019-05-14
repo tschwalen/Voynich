@@ -4,6 +4,7 @@ import numpy as np
 import functools as ft
 import operator as op
 import math
+from NGLM import NG_Model
 
 np.set_printoptions(precision=5)
 
@@ -373,7 +374,73 @@ def char_positional_analysis(wf, cf):
 
 
 
+def other_text_lm():
+	lines = 5198
 
+	start_line = 90
+
+	source = "data/evagatorium.txt"
+
+	lines = []
+
+	line_num = 0
+	with open(source, "r") as ins:
+			
+			for line in ins:
+
+				if line_num < start_line:
+					line_num += 1
+					continue
+
+				if line_num > lines:
+					break
+
+
+				
+				array.append(line)
+
+
+
+def language_model_analysis(voynich):
+
+	list_of_pages = voynich[1]
+
+	training_set = []
+
+	test_set = []
+
+	lm = NG_Model(3, 3)
+
+	# let the test set be every x line, and the training set be the remainder
+
+	num = 0
+	for page in list_of_pages:
+		#print(page.name)
+		for line in page.lines:
+
+			if num % 2 == 0:
+				test_set.append(line.get_words_simple())
+			else:
+				training_set.append(line.get_words_simple())
+
+			num += 1
+
+	print(num)
+
+	# now train the lm
+	for line in training_set:
+		lm.update(line)
+
+	print(len(lm.vocab))
+
+	# calculate the perplexity
+	perplexity = lm.corpus_perplexity(test_set)
+
+	#generate some random text
+	sample_line = lm.random_text(8)
+
+	print("perplexity: {p}".format(p=perplexity))
+	print("Sample Sentence: {s}.".format(s=sample_line))
 
 
 
@@ -383,8 +450,8 @@ def preliminary_analysis(voynich):
 
 	# subsection_analysis(voynich)
 	
-	wf = word_frequencies(voynich[1], do_print=False)
-	cf = character_frequencies(voynich[1], do_print=False)
+	#wf = word_frequencies(voynich[1], do_print=False)
+	#cf = character_frequencies(voynich[1], do_print=False)
 
 	""" Finding the lonest valid word """
 	# for word in list(wf):
@@ -397,7 +464,8 @@ def preliminary_analysis(voynich):
 	# print(wf["qokeeodaiin"])
 
 	# ~~~~ char positional analysis
-	char_positional_analysis(wf, cf)
+	#char_positional_analysis(wf, cf)
+	language_model_analysis(voynich)
 
 
 

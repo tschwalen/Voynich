@@ -54,7 +54,7 @@ class VoynichLine:
 
 		# now we should have a list of strings that cleanly
 		# represents this line of the MS
-		return line
+		return list(line)
 
 	def get_string_simple(self, confident_spaces=True):
 		return " ".join(map(str, self.get_words_simple(confident_spaces)))

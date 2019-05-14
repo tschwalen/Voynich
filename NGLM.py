@@ -96,7 +96,6 @@ class NG_Model:
 
 		for word in self.vocab:
 
-
 			p = self.prob(context, word, do_log=True)
 			if p > max_prob:
 				max_prob = p

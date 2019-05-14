@@ -1,0 +1,6 @@
+#results achieved by dividing MS in half
+
+num lines: 5198
+size of vocab: 4927
+perplexity: 12.656755995621982
+Sample Sentence: daiin chey lkeey rolkeey chckhy okeeey lchedy lkeain .
